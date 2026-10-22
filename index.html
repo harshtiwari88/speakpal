@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#6c63ff" />
+  <meta name="description" content="Practice spoken English with an AI coach" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SpeakPal" />
+
+  <title>SpeakPal – English Coach</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" />
+  <link rel="stylesheet" href="./css/style.css" />
+
+  <!-- ⚙ Set your backend URL here before deploying -->
+  <!-- <script>window.SPEAKPAL_BACKEND = "https://speakpal-backend.onrender.com";</script> -->
+  <script src="./config.js" onerror="void 0"></script>
+
+  <style>
+    @keyframes shake {
+      0%,100% { transform: translateX(0) }
+      20%,60%  { transform: translateX(-6px) }
+      40%,80%  { transform: translateX(6px) }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ ONBOARDING ══════════════════════════════════════════════════════════ -->
+<section id="screen-onboard" class="screen">
+  <div class="onboard-logo">🎙</div>
+  <h1 class="onboard-title">Speak<span>Pal</span></h1>
+  <p class="onboard-sub">Your personal AI English conversation coach. Practice speaking anytime, anywhere.</p>
+
+  <div class="field-group">
+    <label for="input-name">What should I call you?</label>
+    <input id="input-name" type="text" placeholder="Your first name" autocomplete="given-name" />
+  </div>
+
+  <div class="field-group">
+    <label for="input-level">Your English level</label>
+    <select id="input-level">
+      <option value="beginner">Beginner</option>
+      <option value="intermediate" selected>Intermediate</option>
+      <option value="advanced">Advanced</option>
+    </select>
+  </div>
+
+  <button id="btn-onboard-start" class="btn-primary">Let's start →</button>
+</section>
+
+<!-- ══ MAIN APP ════════════════════════════════════════════════════════════ -->
+<section id="screen-app" class="screen">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="logo-small">🎙</span>
+      <span class="app-title">Speak<span>Pal</span></span>
+    </div>
+    <button class="btn-icon" id="btn-open-settings" title="Settings" aria-label="Settings">⚙</button>
+  </header>
+
+  <!-- Status indicator -->
+  <div class="status-bar">
+    <div class="dot idle"></div>
+    <span id="status-text">Tap the mic to start</span>
+    <div class="waveform" aria-hidden="true">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+  </div>
+
+  <!-- Conversation feed -->
+  <div class="transcript-wrap" id="transcript-feed" role="log" aria-live="polite">
+    <!-- Bubbles injected by JS -->
+  </div>
+
+  <!-- Call controls -->
+  <div class="call-bar">
+    <div id="live-transcript" class="live-transcript" aria-live="polite">Say something…</div>
+
+    <div class="controls">
+      <button id="btn-mute" class="btn-call" aria-label="Mute / Unmute">🔇</button>
+      <button id="btn-start" class="btn-call" aria-label="Start call">🎙</button>
+      <button id="btn-end" class="btn-call" aria-label="End call">📵</button>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ SETTINGS ════════════════════════════════════════════════════════════ -->
+<section id="screen-settings" class="screen">
+
+  <header class="settings-header">
+    <button class="btn-icon" id="btn-back-settings" aria-label="Back">←</button>
+    <h2>Settings</h2>
+  </header>
+
+  <div class="settings-body">
+
+    <div class="settings-section">
+      <div class="settings-section-title">Profile</div>
+      <div class="settings-row">
+        <label for="set-name">Your name</label>
+        <input id="set-name" type="text" placeholder="First name" />
+      </div>
+      <div class="settings-row">
+        <label for="set-level">English level</label>
+        <select id="set-level">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Conversation</div>
+      <div class="settings-row">
+        <label for="set-topics">Favourite topics</label>
+        <input id="set-topics" type="text" placeholder="travel, tech, sports…" />
+      </div>
+      <div class="settings-row">
+        <label for="set-corrections">Grammar corrections</label>
+        <div class="toggle-wrap">
+          <input id="set-corrections" type="checkbox" checked />
+          <label for="set-corrections" style="font-size:.85rem; color: var(--muted)">On</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Voice</div>
+      <div class="settings-row">
+        <label for="set-voice">AI voice</label>
+        <select id="set-voice">
+          <optgroup label="Female">
+            <option value="autumn">Autumn</option>
+            <option value="diana">Diana</option>
+            <option value="hannah">Hannah</option>
+          </optgroup>
+          <optgroup label="Male">
+            <option value="austin">Austin</option>
+            <option value="daniel">Daniel</option>
+            <option value="troy">Troy</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+
+    <button id="btn-save-settings" class="btn-save">Save Settings</button>
+  </div>
+</section>
+
+<!-- Toast -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
