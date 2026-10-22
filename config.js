@@ -7,4 +7,4 @@
 //
 // Leave as empty string to use http://localhost:3000 (local dev only).
 
-window.SPEAKPAL_BACKEND = "";
+window.SPEAKPAL_BACKEND = "https://speakpal-av78.onrender.com";
